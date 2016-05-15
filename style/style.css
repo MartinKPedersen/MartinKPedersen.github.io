@@ -128,8 +128,8 @@ ol li
 
 #logo #contact_details
 { position: absolute; 
-  top: 47px;
-  right: 55px;}
+  top: 60px;
+  right: 65px;}
 
 #logo #contact_details p
 { text-align: center;
@@ -139,7 +139,7 @@ ol li
   color: #999;}
 
 #menubar
-{ width: 1035px;
+{ width: 875px;
   height: 71px;
   padding: 0px 0 0 0px;
   border: 1px solid #6A6A6A;
@@ -175,7 +175,7 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
 { color: #FFF;}
 
 #site_content
-{ width: 1000px;
+{ width: 845px;
   overflow: hidden;
   margin: 0 auto 0 auto;
   padding: 25px 20px 20px 33px;
@@ -219,7 +219,7 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   line-height: 1.5em;}
 
 #footer
-{ width: 1035px;
+{ width: 878px;
   font: normal 100% "lucida sans unicode";
   height: 33px;
   padding: 24px 0 5px 0;
