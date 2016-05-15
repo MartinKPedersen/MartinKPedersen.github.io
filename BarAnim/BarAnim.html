@@ -1,15 +1,9 @@
-<!DOCTYPE HTML>
-<html>
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>02806 - Social Data Analysis and Visualization</title>
-  <meta name="description" content="website description" />
-  <meta name="keywords" content="website keywords, website keywords" />
-  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
-  <link rel="stylesheet" type="text/css" href="style/style.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-
 <meta charset="utf-8">
+<title>Assignment 2C</title>
 <script type="text/javascript" src="d3/d3.js"></script>
 <style type="text/css">
     .axis path,
@@ -25,10 +19,10 @@
         color: rgba(100,100,200,0.7);
     }
     .tooltip {
-        position: absolute;
-        width: 120px;
-        height: 28px;
-        pointer-events: none;
+				position: absolute;
+				width: 120px;
+				height: 28px;
+				pointer-events: none;
                 line-height: 1;
 
                 font-weight: bold;
@@ -36,74 +30,14 @@
                 background: rgba(0, 0, 0, 0.8);
                 color: #fff;
                 border-radius: 2px;
-      }
+			}
 </style>
 
-
 </head>
-
 <body>
-  <div id="main">
-    <div id="header">
-      <div id="logo">
-        <div id="logo_text">
-          <!-- class="logo_colour", allows you to change the colour of the text -->
-          <h1><a href="index.html">02806 - Social Data Analysis and<span class="logo_colour">Visualization</span></a></h1>
-          <h2>Copenhagen Wealth through Time and Space!</h2>
-        </div>
-        <div id="contact_details">
-          <p>Martin Kæreby Lund</p>
-          <p>s152222</p>
-          <p>Christopher Nelson</p>
-          <p>s092629</p>
-        </div>
-      </div>
-      <div id="menubar">
-        <ul id="menu">
-          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
-          <li><a href="index.html">The Project</a></li>
-          <li><a href="aboutUs.html">About Us</a></li>
-          <li><a href="data.html">Data</a></li>
-          <li class="selected"><a href="visualizations.html">Visualizations</a></li>
-          <li><a href="machineLearning.html">Machine Learning</a></li>
-        </ul>
-      </div>
-    </div>
-    <div id="site_content">
-      <div class="sidebar">
-        <!-- insert your sidebar items here -->
-        <h3>Latest Updates</h3>
-        <h4>New D3 visualization!</h4>
-        <h5>May 5th, 2016</h5>
-        <p>A new D3 visualization was added, which lets you switch from 1997 to 2013 and see the difference in high and low income citizens living in Nørrebro.<br /><a href="#">Go To</a></p>
-        <p></p>
-        <h4>Messages</h4>
-        <h5>May 5th, 2016</h5>
-        <p>Hey Christopher, håber at det går godt med de rullende akser :P Hvad synes du om siden? Det eneste er at man skal lade Copyright tingen i footeren stå, men tænker at det er ok.<br /><a href="#">Read more</a></p>
-        <h3>References</h3>
-        <ul>
-          <li><a href="#">link 1</a></li>
-          <li><a href="#">link 2</a></li>
-          <li><a href="#">link 3</a></li>
-          <li><a href="#">link 4</a></li>
-        </ul>
-        <h3>Search</h3>
-        <form method="post" action="#" id="search_form">
-          <p>
-            <input class="search" type="text" name="search_field" value="Enter keywords....." />
-            <input name="search" type="image" style="border: 0; margin: 0 0 -9px 5px;" src="style/search.png" alt="Search" title="Search" />
-          </p>
-        </form>
-      </div>
-      <div id="content">
-        <!-- insert the page content here -->
-        
-
-
-
-
-        <body>
     <div id="canvas">
+        <h2>Assignment 2C</h2>
+        <p> </p>
         <p>
             Select crime:
             <select class="selectcrime" id="crimes">
@@ -182,47 +116,47 @@
 
                 
                     d3.select(".selectcrime")
-              .on("change", function (d, i)
-              {
-                var sel = "";
-                sel = String(d3.select("#crimes")
+					    .on("change", function (d, i)
+					    {
+						    var sel = "";
+						    sel = String(d3.select("#crimes")
                                 .node()
                                 .value);
 
-                if (sel == "data1")
-                {
-                    UpdateDraw(data1, socgroups);
-                }
-                else if (sel == "data2")
-                {
-                    UpdateDraw(data2, socgroups2);
-                }
-                else if (sel == "data3")
-                {
-                    UpdateDraw(data3, socgroups3);
-                }
-                else if (sel == "data4") {
-                    UpdateDraw(data4, socgroups4);
-                }
-                else if (sel == "data5") {
-                    UpdateDraw(data5, socgroups5);
-                }
-                else if (sel == "data6") {
-                    UpdateDraw(data6, socgroups6);
-                }
-                else if (sel == "data7") {
-                    UpdateDraw(data7, socgroups7);
-                }
-                else if (sel == "data8") {
-                    UpdateDraw(data8, socgroups8);
-                }
-                else if (sel == "data9") {
-                    UpdateDraw(data9, socgroups9);
-                }
-                else {
-                    UpdateDraw(data10, socgroups10);
-                }
-              });
+						    if (sel == "data1")
+						    {
+						        UpdateDraw(data1, socgroups);
+						    }
+						    else if (sel == "data2")
+						    {
+						        UpdateDraw(data2, socgroups2);
+						    }
+						    else if (sel == "data3")
+						    {
+						        UpdateDraw(data3, socgroups3);
+						    }
+						    else if (sel == "data4") {
+						        UpdateDraw(data4, socgroups4);
+						    }
+						    else if (sel == "data5") {
+						        UpdateDraw(data5, socgroups5);
+						    }
+						    else if (sel == "data6") {
+						        UpdateDraw(data6, socgroups6);
+						    }
+						    else if (sel == "data7") {
+						        UpdateDraw(data7, socgroups7);
+						    }
+						    else if (sel == "data8") {
+						        UpdateDraw(data8, socgroups8);
+						    }
+						    else if (sel == "data9") {
+						        UpdateDraw(data9, socgroups9);
+						    }
+						    else {
+						        UpdateDraw(data10, socgroups10);
+						    }
+					    });
                     });
                 });
                 });
@@ -243,7 +177,7 @@
 
             yScale = d3.scale.linear()
                             .domain([0, d3.max(data1, function (d) { return d3.max(d.group, function (d) { return d.value; }); })])
-              .range([h, 0]);
+							.range([h, 0]);
             
             var color = d3.scale.ordinal()
                             .range(["#1E90FF", "#0000CD", "#191970"]);
@@ -256,8 +190,8 @@
                                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             var tooltip = d3.select("body").append("div")
-              .attr("class", "tooltip")
-              .style("opacity", 0);
+							.attr("class", "tooltip")
+							.style("opacity", 0);
 
             var xAxis = d3.svg.axis()
                 .scale(xScale0)
@@ -317,17 +251,17 @@
                                 .style("left", (d3.event.pageX + 1) + "px")
                                 .style("top", (d3.event.pageY - 58) + "px");
                     })
-                .on("mouseout", function (d) {
+				        .on("mouseout", function (d) {
 
-                    d3.select(this)
-                    .transition()
-                    .duration(250)
-                    .style("fill", function (d) { return color(d.name); });
+				            d3.select(this)
+						        .transition()
+						        .duration(250)
+						        .style("fill", function (d) { return color(d.name); });
 
-                    tooltip.transition()
-                      .duration(500)
-                      .style("opacity", 0);
-                });
+				            tooltip.transition()
+							        .duration(500)
+							        .style("opacity", 0);
+				        });
             //Legend
             var legend = svg.selectAll(".legend")
                     .data(socgroups.slice())
@@ -348,7 +282,7 @@
                 .attr("dy", ".35em")
                 .style("text-anchor", "end")
                 .text(function (d) { return d; });
-        
+				
 
             function UpdateDraw(data, socgroup)
             {
@@ -362,7 +296,7 @@
                             .rangeRoundBands([0, xScale0.rangeBand()]);
             yScale = d3.scale.linear()
                             .domain([0, d3.max(data, function (d) { return d3.max(d.group, function (d) { return d.value; }) })])
-              .range([h, 0]);
+							.range([h, 0]);
 
             var color = d3.scale.ordinal()
                             .range(["#1E90FF", "#0000CD", "#191970"]);
@@ -424,22 +358,5 @@
         });
     </script>
 
-</body>
-
-
-
-
-
-
-
-
-
-
-      </div>
-    </div>
-    <div id="footer">
-      Copyright &copy; simplestyle_2 | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">design from HTML5webtemplates.co.uk</a>
-    </div>
-  </div>
 </body>
 </html>
