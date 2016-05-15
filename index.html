@@ -44,9 +44,8 @@
       </div>
       <div id="content">
         <!-- insert the page content here -->
-        <h1>Welcome to the simplestyle_2 template</h1>
-        <p>This standards compliant, simple, fixed width website template is released as an 'open source' design (under a <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 Licence</a>), which means that you are free to download and use it for anything you want (including modifying and amending it). All I ask is that you leave the 'design from HTML5webtemplates.co.uk' link in the footer of the template, but other than that...</p>
-
+        
+<iframe width="853" height="480" src="https://www.youtube.com/embed/YcCEpFI0zbY" frameborder="0" allowfullscreen></iframe>
 
         <video width="640" height="480" controls>
         <source src="movie.mp4" type="video/mp4">
@@ -54,25 +53,58 @@
         Your browser does not support the video tag.
         </video> 
 
+    <script type="text/javascript">
+
+// Load the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Replace the 'ytplayer' element with an <iframe> and
+// YouTube player after the API code downloads.
+var player;
+function onYouTubePlayerAPIReady() {
+  player = new YT.Player('ytplayer', {
+    height: '258',
+    width: '422',
+    videoId: 'YcCEpFI0zbY'
+  });
+}
+
+
+
+
+</script>
+
+<iframe width="420" height="315" src="//youtu.be/YcCEpFI0zbY" frameborder="0" allowfullscreen></iframe>
+
+
+
 
         <iframe width="420" height="315"
         src="https://youtu.be/YcCEpFI0zbY">
         </iframe> 
 
 
+<object width="640" height="390">
+  <param name="movie"
+         value="https://youtu.be/YcCEpFI0zbY"></param>
+  <param name="allowScriptAccess" value="always"></param>
+  <embed src="https://youtu.be/YcCEpFI0zbY"
+         type="application/x-shockwave-flash"
+         allowscriptaccess="always"
+         width="422" height="258"></embed>
+</object>
 
-        <p>This template is written entirely in <strong>HTML5</strong> and <strong>CSS</strong>, and can be validated using the links in the footer.</p>
-        <p>You can view more free HTML5 web templates <a href="http://www.html5webtemplates.co.uk">here</a>.</p>
-        <p>This template is a fully functional 5 page website, with an <a href="examples.html">examples</a> page that gives examples of all the styles available with this design.</p>
-        <h2>Browser Compatibility</h2>
-        <p>This template has been tested in the following browsers:</p>
-        <ul>
-          <li>Internet Explorer 8</li>
-          <li>Internet Explorer 7</li>
-          <li>FireFox 3.5</li>
-          <li>Google Chrome 6</li>
-          <li>Safari 4</li>
-        </ul>
+
+
+
+
+
+
+
+        
       </div>
     </div>
     <div id="footer">
