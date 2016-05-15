@@ -119,7 +119,7 @@ ol li
   text-decoration: none;}
 
 #logo_text h1 a .logo_colour
-{ color: #3498DB;}
+{ color: #ECF0F1;}
 
 #logo_text h2
 { font-size: 100%;
@@ -129,7 +129,7 @@ ol li
 #logo #contact_details
 { position: absolute; 
   top: 53px;
-  right: 54px;}
+  right: 32px;}
 
 #logo #contact_details p
 { text-align: center;
