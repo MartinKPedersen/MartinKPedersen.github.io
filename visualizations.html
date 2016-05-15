@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <title>02806 - Social Data Analysis and Visualization</title>
@@ -8,6 +8,7 @@
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
 
 <meta charset="utf-8">
 <script type="text/javascript" src="d3/d3.js"></script>
@@ -43,6 +44,7 @@
 </head>
 
 <body>
+
   <div id="main">
     <div id="header">
       <div id="logo">
@@ -101,9 +103,15 @@
 
 
 
-<!-- I removed a body here, just fyi -->
 
-  <!--  <div id="canvas"> -->
+
+
+
+
+
+
+<body>
+    <div id="canvas">
         <p>
             Select crime:
             <select class="selectcrime" id="crimes">
@@ -119,71 +127,54 @@
                 <option value="data10">Vesterbro</option>
             </select>
         </p>
-
-
-  <!--  </div> -->
-
-
-   <script type="text/javascript">   
-
+    </div>
+    <p></p>
+    <div id="area1"></div>
+    <p><br></p>
+    <script type="text/javascript">
         //Width and height
         var margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        var w = 400 - margin.left - margin.right;
+        var w = 960 - margin.left - margin.right;
         var h = 500 - margin.top - margin.bottom;
         
         var data;
         var data1;  //Dataset 1
         var data2;  //Dataset 2
         var data3;  //Dataset 3
-
         var xScale;
         var yScale;
-
         d3.csv("data/dataTilGrafToIndreBy.csv", function (csv1) {                                //Loading daataset 1
             var socgroups = d3.keys(csv1[0]).filter(function (key) { return key !== "AAR"; });
-
             csv1.forEach(function (d) {
                 d.group = socgroups.map(function (name) { return { name: name, value: +d[name] }; }); });
             data1 = csv1;
-
-
             d3.csv("data/dataTilGrafToNoerrebro.csv", function (csv2) {                             //Loading dataset 2
                 var socgroups2 = d3.keys(csv2[0]).filter(function (key) { return key !== "AAR"; });
                 data2 = csv2;
-
-
                 d3.csv("data/dataTilGrafToOesterbro.csv", function (csv3) {                           //Loading dataset 3
                     var socgroups3 = d3.keys(csv3[0]).filter(function (key) { return key !== "AAR"; });
                     data3 = csv3;
-
                     d3.csv("data/dataTilGrafToAmagerOest.csv", function (csv4) {                           //Loading dataset 4
                         var socgroups4 = d3.keys(csv4[0]).filter(function (key) { return key !== "AAR"; });
                         data4 = csv4;
-
                         d3.csv("data/dataTilGrafToAmagerVest.csv", function (csv5) {                           //Loading dataset 4
                             var socgroups5 = d3.keys(csv5[0]).filter(function (key) { return key !== "AAR"; });
                             data5 = csv5;
-
                             d3.csv("data/dataTilGrafToBispebjerg.csv", function (csv6) {                           //Loading dataset 4
                                 var socgroups6 = d3.keys(csv6[0]).filter(function (key) { return key !== "AAR"; });
                                 data6 = csv6;
-
                                 d3.csv("data/dataTilGrafToBroenshoej.csv", function (csv7) {                           //Loading dataset 4
                                     var socgroups7 = d3.keys(csv7[0]).filter(function (key) { return key !== "AAR"; });
                                     data7 = csv7;
-
                                     d3.csv("data/dataTilGrafToValby.csv", function (csv8) {                           //Loading dataset 4
                                         var socgroups8 = d3.keys(csv8[0]).filter(function (key) { return key !== "AAR"; });
                                         data8 = csv8;
-
                                         d3.csv("data/dataTilGrafToVanloese.csv", function (csv9) {                           //Loading dataset 4
                                             var socgroups9 = d3.keys(csv9[0]).filter(function (key) { return key !== "AAR"; });
                                             data9 = csv9;
-
                                             d3.csv("data/dataTilGrafToVesterbro.csv", function (csv10) {                           //Loading dataset 4
                                                 var socgroups10 = d3.keys(csv10[0]).filter(function (key) { return key !== "AAR"; });
                                                 data10 = csv10;
-
                 
                     d3.select(".selectcrime")
               .on("change", function (d, i)
@@ -192,7 +183,6 @@
                 sel = String(d3.select("#crimes")
                                 .node()
                                 .value);
-
                 if (sel == "data1")
                 {
                     UpdateDraw(data1, socgroups);
@@ -236,48 +226,37 @@
                 });
                 });
             });
-
             // .rangeRoundBands([0, w], 0.05);
-
             xScale0 = d3.scale.ordinal().domain(data1.map(function (d) { return d.AAR; }))
                             .rangeRoundBands([0, w], .1);
-
             xScale1 = d3.scale.ordinal().domain(socgroups)
                             .rangeRoundBands([0, xScale0.rangeBand()]);
-
             yScale = d3.scale.linear()
                             .domain([0, d3.max(data1, function (d) { return d3.max(d.group, function (d) { return d.value; }); })])
               .range([h, 0]);
             
             var color = d3.scale.ordinal()
                             .range(["#1E90FF", "#0000CD", "#191970"]);
-
-
-            var svg = d3.select("body").append("svg")
+            var svg = d3.select("#area1").append("svg")
                                 .attr("width", w + margin.left + margin.right)
                                 .attr("height", h + margin.top + margin.bottom)
                         .append("g")
                                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            var tooltip = d3.select("body").append("div")
+            var tooltip = d3.select("#area1").append("div")
               .attr("class", "tooltip")
               .style("opacity", 0);
-
             var xAxis = d3.svg.axis()
                 .scale(xScale0)
                 .orient("bottom");
-
             var yAxis = d3.svg.axis()
                 .scale(yScale)
                 .orient("left")
                 .tickFormat(d3.format(".2s"));
-
             //Creating x axis
             svg.append("g")
                  .attr("class", "x axis")
                  .attr("transform", "translate(0," + h + ")")
                  .call(xAxis);
-
             //Creating y axis
             svg.append("g")
                     .attr("class", "y axis")
@@ -288,14 +267,12 @@
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
                     .text("Population");
-
             var AAR = svg.selectAll(".AAR")
                     .data(data1)
                     .enter()
                 .append("g")
                     .attr("class", "AAR")
                     .attr("transform", function (d) { return "translate(" + xScale0(d.AAR) + ",0)"; });
-
             AAR.selectAll("rect")
                     .data(function (d) { return d.group; })
                     .enter()
@@ -308,7 +285,6 @@
                     .on("mouseover", function (d) {
                         d3.select(this)
                             .style("fill", "green");
-
                         tooltip.transition()
                                 .duration(200)
                                 .style("opacity", 1)
@@ -322,12 +298,10 @@
                                 .style("top", (d3.event.pageY - 58) + "px");
                     })
                 .on("mouseout", function (d) {
-
                     d3.select(this)
                     .transition()
                     .duration(250)
                     .style("fill", function (d) { return color(d.name); });
-
                     tooltip.transition()
                       .duration(500)
                       .style("opacity", 0);
@@ -353,13 +327,11 @@
                 .style("text-anchor", "end")
                 .text(function (d) { return d; });
         
-
             function UpdateDraw(data, socgroup)
             {
-
+            
             data.forEach(function (d) {
                             d.group = socgroup.map(function (name) { return { name: name, value: +d[name] }; }); });
-
             xScale0 = d3.scale.ordinal().domain(data.map(function (d) { return d.AAR; }))
                             .rangeRoundBands([0, w], .1);
             xScale1 = d3.scale.ordinal().domain(socgroup)
@@ -367,7 +339,6 @@
             yScale = d3.scale.linear()
                             .domain([0, d3.max(data, function (d) { return d3.max(d.group, function (d) { return d.value; }) })])
               .range([h, 0]);
-
             var color = d3.scale.ordinal()
                             .range(["#1E90FF", "#0000CD", "#191970"]);
                 
@@ -376,19 +347,15 @@
                 .scale(yScale)
                 .orient("left")
                 .tickFormat(d3.format(".2s"));
-
-
                 //Update Y axis
             svg.selectAll(".y.axis")
                 .transition()
                 .duration(1000)
                 .call(yAxis);
-
             var AAR = svg.selectAll(".AAR")
                     .data(data)
                     .attr("class", "AAR")
                     .attr("transform", function (d) { return "translate(" + xScale0(d.AAR) + ",0)"; });
-
             AAR.selectAll("rect")
                     .data(function (d) { return d.group; })
                     .transition()
@@ -401,8 +368,6 @@
                     .attr("y", function (d) { return yScale(d.value); })
                     .attr("height", function (d) { return h - yScale(d.value); })
                     .style("fill", function (d) { return color(d.name); });
-
-
           //  //Legend
            // var legend = svg.selectAll(".legend")
              //       .data(socgroup.slice().reverse())
@@ -424,11 +389,10 @@
            //     .style("text-anchor", "end")
             //    .text(function (d) { return d; });
         }
-
         });
     </script>
 
-
+</body>
 
 
 
