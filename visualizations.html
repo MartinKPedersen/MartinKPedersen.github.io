@@ -74,10 +74,8 @@
     <div id="site_content">
       <div class="sidebar">
         <!-- insert your sidebar items here -->
-        
-
-
       </div>
+
 
         <!-- insert the page content here -->
         
@@ -88,6 +86,7 @@
 
 
 
+    
 
     <div id="canvas">
         <p>
@@ -107,7 +106,7 @@
         </p>
     </div>
     <p></p>
-    <div id="area1">
+    <div id="area1"></div>
     <p><br></p>
     <script type="text/javascript">
         //Width and height
@@ -155,46 +154,46 @@
                                                 data10 = csv10;
                 
                     d3.select(".selectcrime")
-              .on("change", function (d, i)
-              {
-                var sel = "";
-                sel = String(d3.select("#crimes")
+                        .on("change", function (d, i)
+                        {
+                            var sel = "";
+                            sel = String(d3.select("#crimes")
                                 .node()
                                 .value);
-                if (sel == "data1")
-                {
-                    UpdateDraw(data1, socgroups);
-                }
-                else if (sel == "data2")
-                {
-                    UpdateDraw(data2, socgroups2);
-                }
-                else if (sel == "data3")
-                {
-                    UpdateDraw(data3, socgroups3);
-                }
-                else if (sel == "data4") {
-                    UpdateDraw(data4, socgroups4);
-                }
-                else if (sel == "data5") {
-                    UpdateDraw(data5, socgroups5);
-                }
-                else if (sel == "data6") {
-                    UpdateDraw(data6, socgroups6);
-                }
-                else if (sel == "data7") {
-                    UpdateDraw(data7, socgroups7);
-                }
-                else if (sel == "data8") {
-                    UpdateDraw(data8, socgroups8);
-                }
-                else if (sel == "data9") {
-                    UpdateDraw(data9, socgroups9);
-                }
-                else {
-                    UpdateDraw(data10, socgroups10);
-                }
-              });
+                            if (sel == "data1")
+                            {
+                                UpdateDraw(data1, socgroups);
+                            }
+                            else if (sel == "data2")
+                            {
+                                UpdateDraw(data2, socgroups2);
+                            }
+                            else if (sel == "data3")
+                            {
+                                UpdateDraw(data3, socgroups3);
+                            }
+                            else if (sel == "data4") {
+                                UpdateDraw(data4, socgroups4);
+                            }
+                            else if (sel == "data5") {
+                                UpdateDraw(data5, socgroups5);
+                            }
+                            else if (sel == "data6") {
+                                UpdateDraw(data6, socgroups6);
+                            }
+                            else if (sel == "data7") {
+                                UpdateDraw(data7, socgroups7);
+                            }
+                            else if (sel == "data8") {
+                                UpdateDraw(data8, socgroups8);
+                            }
+                            else if (sel == "data9") {
+                                UpdateDraw(data9, socgroups9);
+                            }
+                            else {
+                                UpdateDraw(data10, socgroups10);
+                            }
+                        });
                     });
                 });
                 });
@@ -211,7 +210,7 @@
                             .rangeRoundBands([0, xScale0.rangeBand()]);
             yScale = d3.scale.linear()
                             .domain([0, d3.max(data1, function (d) { return d3.max(d.group, function (d) { return d.value; }); })])
-              .range([h, 0]);
+                            .range([h, 0]);
             
             var color = d3.scale.ordinal()
                             .range(["#1E90FF", "#0000CD", "#191970"]);
@@ -221,8 +220,8 @@
                         .append("g")
                                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             var tooltip = d3.select("#area1").append("div")
-              .attr("class", "tooltip")
-              .style("opacity", 0);
+                            .attr("class", "tooltip")
+                            .style("opacity", 0);
             var xAxis = d3.svg.axis()
                 .scale(xScale0)
                 .orient("bottom");
@@ -275,15 +274,15 @@
                                 .style("left", (d3.event.pageX + 1) + "px")
                                 .style("top", (d3.event.pageY - 58) + "px");
                     })
-                .on("mouseout", function (d) {
-                    d3.select(this)
-                    .transition()
-                    .duration(250)
-                    .style("fill", function (d) { return color(d.name); });
-                    tooltip.transition()
-                      .duration(500)
-                      .style("opacity", 0);
-                });
+                        .on("mouseout", function (d) {
+                            d3.select(this)
+                                .transition()
+                                .duration(250)
+                                .style("fill", function (d) { return color(d.name); });
+                            tooltip.transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
+                        });
             //Legend
             var legend = svg.selectAll(".legend")
                     .data(socgroups.slice())
@@ -304,7 +303,7 @@
                 .attr("dy", ".35em")
                 .style("text-anchor", "end")
                 .text(function (d) { return d; });
-        
+                
             function UpdateDraw(data, socgroup)
             {
             
@@ -316,7 +315,7 @@
                             .rangeRoundBands([0, xScale0.rangeBand()]);
             yScale = d3.scale.linear()
                             .domain([0, d3.max(data, function (d) { return d3.max(d.group, function (d) { return d.value; }) })])
-              .range([h, 0]);
+                            .range([h, 0]);
             var color = d3.scale.ordinal()
                             .range(["#1E90FF", "#0000CD", "#191970"]);
                 
@@ -368,7 +367,7 @@
             //    .text(function (d) { return d; });
         }
         });
-</div>
+
     </script>
 
 
@@ -379,14 +378,10 @@
 
 
 
-
-
-
-     
-
+ </div>
     <div id="footer">
       Copyright &copy; simplestyle_2 | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">design from HTML5webtemplates.co.uk</a>
     </div>
-  </div>
+ 
 </body>
 </html>
