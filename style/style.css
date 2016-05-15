@@ -144,7 +144,7 @@ ol li
   padding: 0px 0 0 0px;
   border: 1px solid #2980B9;
   border-bottom: 0;
-  background: #2C3E50 url(menu.png) repeat-x;} 
+  background: #2C3E50 ;} 
 
 ul#menu
 { float: left;
@@ -224,7 +224,7 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   height: 33px;
   padding: 24px 0 5px 0;
   text-align: center; 
-  background: #2C3E50 url(menu.png) repeat-x;
+  background: #2C3E50 ;
   color: #3498DB;
   text-transform: uppercase;
   letter-spacing: 0.1em;}
