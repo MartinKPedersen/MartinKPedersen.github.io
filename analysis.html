@@ -8,37 +8,40 @@
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+  <meta charset="utf-8">
+  <script type="text/javascript" src="d3/d3.js"></script>
 
-
-<meta charset="utf-8">
-<script type="text/javascript" src="d3/d3.js"></script>
-<style type="text/css">
-    .axis path,
-    .axis line {
-        fill: none;
-        stroke: rgba(50,75,150,1);
-        shape-rendering: crispEdges;
-    }
-
-    .axis text {
-        font-family: arial;
-        font-size: 12px;
-        color: rgba(100,100,200,0.7);
-    }
-    .tooltip {
-        position: absolute;
-        width: 120px;
-        height: 28px;
-        pointer-events: none;
+    <style type="text/css">
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke-width: 2px;
+            stroke: rgb(52, 152, 219);
+            shape-rendering: crispEdges;
+        }
+        .axis text {
+            font-family: helvetica;
+            font-size: 12px;
+           
+            color: rgb(44, 62, 80);
+        }
+        .tooltip {
+                position: absolute;
+                width: 200px;
+                height: 70px;
+                pointer-events: none;
                 line-height: 1;
-
                 font-weight: bold;
-                padding: 8px;
-                background: rgba(0, 0, 0, 0.8);
+                padding: 9px;
+                background: rgb(26, 188, 156);
                 color: #fff;
                 border-radius: 2px;
-      }
-</style>
+            }
+    </style>
+
+
+
+
 
 
 </head>
@@ -81,10 +84,242 @@
 
 
 
-
+<div id="canvas">
+        <h2>Scatterplot displaying socioal economical status of citizens in CPH districts</h2>
+        <p>
+           Text here.
+        </p>
+        <p>
+            Select year:
+            <select class="selectdate" id="dates">
+                <option value="data1">Data from 1997</option>
+                <option value="data2">Data from 2013</option>
+            </select>
+        </p>
+    </div>
+    <div id="area2"></div>
+    <script type="text/javascript">
+        //Width and height
+        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        var w = 960 - margin.left - margin.right;
+        var h = 600 - margin.top - margin.bottom;
+        var padding = 60;
+        var data1;  //Dataset 1
+        var data2;  //Dataset 2
+        d3.csv("data/data1997v3.csv", function (data1) {                                 //Loading daataset 1
+            data1.forEach(function (d) { d['TOTAL'] = +d['TOTAL']; });
+            data1.forEach(function (d) { d['HIGH'] = +d['HIGH']; });
+            data1.forEach(function (d) { d['LOW'] = +d['LOW']; });
+            data1 = data1;                                                                //Defining dataset 1
+            d3.csv("data/data2013v3.csv", function (data2) {                               //Loading dataset 2
+                data2.forEach(function (d) { d['TOTAL'] = +d['TOTAL']; });
+                data2.forEach(function (d) { d['HIGH'] = +d['HIGH']; });
+                data2.forEach(function (d) { d['LOW'] = +d['LOW']; }); //prost = LOW    Vtheft = HIGH    total = TOAL
+                data2 = data2;                                                            //Defining dataset 2
+                d3.select(".selectdate")
+                            .on("change", function (d, i) {
+                                var sel = "";
+                                sel = String(d3.select("#dates").node().value);
+                                if (sel == "data1")
+                                {
+                                    UpdateDraw(data1);
+                                }
+                                else
+                                {
+                                    UpdateDraw(data2);
+                                }
+                            });
+            });
+        var xScale = d3.scale.linear()                                                          //Defning xScale
+                            .domain([0, d3.max(data1, function (d) { return d.LOW; })])   //From  0       ->  the max number of prostitute crimes
+                            .range([padding, w - padding * 2]);                                 //To    padding ->  canvas width - padding*2 
+        var yScale = d3.scale.linear()                                                          //Defining yScale
+                        .domain([0, d3.max(data1, function (d) { return d.HIGH; })])         //From  0                       ->  the max number of vehicle theft crimes
+                        .range([h - padding, padding]);                                     //To    canvas height - padding ->  padding
+        var rScale = d3.scale.linear()                                                        //Defining the radius
+                        .domain([0, d3.max(data1, function (d) { return d.TOTAL; })])           //From  0   ->  the max number of total crimes
+                        .range([0, 25]);                                                    //To    0   ->  15
+        var tooltip = d3.select("#area2").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0);
+        //Define X axis
+        var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom")
+            .tickFormat(d3.format(".2s"));
+        //Define Y Axis
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left")
+            .tickFormat(d3.format(".2s"));
+        var svg = d3.select("#area2")
+                   .append("svg")
+                   .attr("width", w + 10)
+                   .attr("height", h);
+        svg.selectAll("circle")
+              .data(data1)
+              .enter()
+              .append("circle")
+              .attr({
+                  cx: function (d) { return xScale(d.LOW); },         //x position based on prostitution crime number
+                  cy: function (d) { return yScale(d.HIGH); },               //y position based on vehicle theft crime number
+                  r: function (d) { return rScale(d.TOTAL); },               //radius based on total crime number 
+                  "fill": "rgb(52, 152, 219)",                               //Color
+                  class: "circle-" + data1.category
+              })
+            .on("mouseover", function (d) {
+                d3.select(this)
+                    .style("fill", "rgb(26, 188, 156)");
+                tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1)
+                        .style("color", "white")
+                        .style("font-family", "helvetica")
+                        .style("font-weight", "bold")
+                        .attr("font-size", "11px");
+                tooltip
+                        .html(d.BYDEL + '<br>' + "Low income:" + d.LOW + '<br>' + "High lincome:" + d.HIGH + '<br>' + "Total citizens: " + d.TOTAL)
+                        .style("left", (d3.event.pageX + 1) + "px")
+                        .style("top", (d3.event.pageY - 58) + "px");
+            })
+                        .on("mouseout", function (d) {
+                            d3.select(this)
+                                .transition()
+                                .duration(250)
+                                .style("fill", "rgba(0,100,200,0.7)");
+                            tooltip.transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
+                        });
+        var text = svg.selectAll("text")                            //Setting up labels
+                                .attr("class", "labels")
+                                .data(data1)
+                                .enter()
+                        .append("text")
+                                .text(function (d) { return d.BYDEL; })
+                                .attr("x", function (d) { return xScale(d.LOW); })
+                                .attr("y", function (d) { return yScale(d.HIGH); })
+                                .style("font-weight", "bold")
+                                .attr("font-family", "helvetica")
+                                .attr("font-size", "15px")
+                                .attr("fill", "rgb(44, 62, 80)");
+        svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + padding + ",0)")
+                .call(yAxis)
+            .append("text")
+                .attr("text-anchor", "end")
+                .attr("y", 6)
+                .attr("dy", ".75em")
+                .attr("transform", d3.transform('translate(-60,200) rotate(-90)').toString())
+                .text("High-income citizens");
+        svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + (h - padding) + ")")
+                    .call(xAxis)
+            .append("text")
+                    .attr("class", "x-label")
+                    .attr("text-anchor", "end")
+                    .attr("x", w)
+                    .attr("y", h - 6)
+                    .attr("transform", d3.transform('translate(-425, -500)').toString())
+                    .text("Low-income citizens");
+    
+        function UpdateDraw(data) {
+            //Changing scales
+            xScale.domain([0, d3.max(data, function (d) { return d.LOW; })])
+            yScale.domain([0, d3.max(data, function (d) { return d.HIGH; })])
+            rScale.domain([0, d3.max(data, function (d) { return d.TOTAL; })])
+            //Define X axis
+            var xAxis = d3.svg.axis()
+                .scale(xScale)
+                .orient("bottom")
+                .tickFormat(d3.format(".2s"));
+            //Define Y Axis
+            var yAxis = d3.svg.axis()
+                .scale(yScale)
+                .orient("left")
+                .tickFormat(d3.format(".2s"));
+            //Update X axis
+            svg.selectAll(".x.axis")
+                .transition()
+                .duration(1000)
+                .call(xAxis);
+            //Update Y axis
+            svg.selectAll(".y.axis")
+                .transition()
+                .duration(1000)
+                .call(yAxis);
+            svg.selectAll("circle")
+               .data(data)
+               .transition()
+               .delay(250)
+               .duration(1500)
+               .attr({
+                   cx: function (d) { return xScale(d.LOW); },                  //x position based on prostitution crime number
+                   cy: function (d) { return yScale(d.HIGH); },                 //y position based on vehicle theft crime number
+                   r: function (d) { return rScale(d.TOTAL); },                 //radius based on total crime number 
+                   "fill": "rgb(52, 152, 219)",                               //Color
+                   class: "circle-" + data.category
+               });
+            text = svg.selectAll("text")                                    //Setting up labels
+           .attr("class", "labels")
+           .data(data)
+           .transition()
+           .delay(250)
+           .duration(1500)
+           .text(function (d) { return d.BYDEL; })
+           .attr("x", function (d) { return xScale(d.LOW); })
+           .attr("y", function (d) { return yScale(d.HIGH); })
+           .attr("font-family", "helvetica")
+           .attr("font-size", "15px")
+           .attr("fill", "rgb(44, 62, 80)");
+        }
+        });
+    </script>
 
 
     
+
+
+
+
+
+
+
+    <p></p>
+    <p></p>
+
+
+  <style type="text/css">
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: rgba(50,75,150,1);
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        font-family: arial;
+        font-size: 12px;
+        color: rgba(100,100,200,0.7);
+    }
+    .tooltip {
+        position: absolute;
+        width: 120px;
+        height: 28px;
+        pointer-events: none;
+                line-height: 1;
+
+                font-weight: bold;
+                padding: 8px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                border-radius: 2px;
+      }
+</style>
+
+
 
     <div id="canvas">
         <p>
@@ -370,238 +605,6 @@
 
 
 
-
-
-    <p></p>
-    <p></p>
-
-
-
-
-
-
-    <style type="text/css">
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke-width: 2px;
-            stroke: rgb(52, 152, 219);
-            shape-rendering: crispEdges;
-        }
-        .axis text {
-            font-family: helvetica;
-            font-size: 12px;
-           
-            color: rgb(44, 62, 80);
-        }
-        .tooltip {
-                position: absolute;
-                width: 200px;
-                height: 70px;
-                pointer-events: none;
-                line-height: 1;
-                font-weight: bold;
-                padding: 9px;
-                background: rgb(26, 188, 156);
-                color: #fff;
-                border-radius: 2px;
-            }
-    </style>
-
-
-<div id="canvas">
-        <h2>Scatterplot displaying socioal economical status of citizens in CPH districts</h2>
-        <p>
-           Text here.
-        </p>
-        <p>
-            Select year:
-            <select class="selectdate" id="dates">
-                <option value="data1">Data from 1997</option>
-                <option value="data2">Data from 2013</option>
-            </select>
-        </p>
-    </div>
-    <div id="area2"></div>
-    <script type="text/javascript">
-        //Width and height
-        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        var w = 960 - margin.left - margin.right;
-        var h = 600 - margin.top - margin.bottom;
-        var padding = 60;
-        var data1;  //Dataset 1
-        var data2;  //Dataset 2
-        d3.csv("data/data1997v3.csv", function (data1) {                                 //Loading daataset 1
-            data1.forEach(function (d) { d['TOTAL'] = +d['TOTAL']; });
-            data1.forEach(function (d) { d['HIGH'] = +d['HIGH']; });
-            data1.forEach(function (d) { d['LOW'] = +d['LOW']; });
-            data1 = data1;                                                                //Defining dataset 1
-            d3.csv("data/data2013v3.csv", function (data2) {                               //Loading dataset 2
-                data2.forEach(function (d) { d['TOTAL'] = +d['TOTAL']; });
-                data2.forEach(function (d) { d['HIGH'] = +d['HIGH']; });
-                data2.forEach(function (d) { d['LOW'] = +d['LOW']; }); //prost = LOW    Vtheft = HIGH    total = TOAL
-                data2 = data2;                                                            //Defining dataset 2
-                d3.select(".selectdate")
-                            .on("change", function (d, i) {
-                                var sel = "";
-                                sel = String(d3.select("#dates").node().value);
-                                if (sel == "data1")
-                                {
-                                    UpdateDraw(data1);
-                                }
-                                else
-                                {
-                                    UpdateDraw(data2);
-                                }
-                            });
-            });
-        var xScale = d3.scale.linear()                                                          //Defning xScale
-                            .domain([0, d3.max(data1, function (d) { return d.LOW; })])   //From  0       ->  the max number of prostitute crimes
-                            .range([padding, w - padding * 2]);                                 //To    padding ->  canvas width - padding*2 
-        var yScale = d3.scale.linear()                                                          //Defining yScale
-                        .domain([0, d3.max(data1, function (d) { return d.HIGH; })])         //From  0                       ->  the max number of vehicle theft crimes
-                        .range([h - padding, padding]);                                     //To    canvas height - padding ->  padding
-        var rScale = d3.scale.linear()                                                        //Defining the radius
-                        .domain([0, d3.max(data1, function (d) { return d.TOTAL; })])           //From  0   ->  the max number of total crimes
-                        .range([0, 25]);                                                    //To    0   ->  15
-        var tooltip = d3.select("#area2").append("div")
-                        .attr("class", "tooltip")
-                        .style("opacity", 0);
-        //Define X axis
-        var xAxis = d3.svg.axis()
-            .scale(xScale)
-            .orient("bottom")
-            .tickFormat(d3.format(".2s"));
-        //Define Y Axis
-        var yAxis = d3.svg.axis()
-            .scale(yScale)
-            .orient("left")
-            .tickFormat(d3.format(".2s"));
-        var svg = d3.select("#area2")
-                   .append("svg")
-                   .attr("width", w + 10)
-                   .attr("height", h);
-        svg.selectAll("circle")
-              .data(data1)
-              .enter()
-              .append("circle")
-              .attr({
-                  cx: function (d) { return xScale(d.LOW); },         //x position based on prostitution crime number
-                  cy: function (d) { return yScale(d.HIGH); },               //y position based on vehicle theft crime number
-                  r: function (d) { return rScale(d.TOTAL); },               //radius based on total crime number 
-                  "fill": "rgb(52, 152, 219)",                               //Color
-                  class: "circle-" + data1.category
-              })
-            .on("mouseover", function (d) {
-                d3.select(this)
-                    .style("fill", "rgb(26, 188, 156)");
-                tooltip.transition()
-                        .duration(200)
-                        .style("opacity", 1)
-                        .style("color", "white")
-                        .style("font-family", "helvetica")
-                        .style("font-weight", "bold")
-                        .attr("font-size", "11px");
-                tooltip
-                        .html(d.BYDEL + '<br>' + "Low income:" + d.LOW + '<br>' + "High lincome:" + d.HIGH + '<br>' + "Total citizens: " + d.TOTAL)
-                        .style("left", (d3.event.pageX + 1) + "px")
-                        .style("top", (d3.event.pageY - 58) + "px");
-            })
-                        .on("mouseout", function (d) {
-                            d3.select(this)
-                                .transition()
-                                .duration(250)
-                                .style("fill", "rgba(0,100,200,0.7)");
-                            tooltip.transition()
-                                    .duration(500)
-                                    .style("opacity", 0);
-                        });
-        var text = svg.selectAll("text")                            //Setting up labels
-                                .attr("class", "labels")
-                                .data(data1)
-                                .enter()
-                        .append("text")
-                                .text(function (d) { return d.BYDEL; })
-                                .attr("x", function (d) { return xScale(d.LOW); })
-                                .attr("y", function (d) { return yScale(d.HIGH); })
-                                .style("font-weight", "bold")
-                                .attr("font-family", "helvetica")
-                                .attr("font-size", "15px")
-                                .attr("fill", "rgb(44, 62, 80)");
-        svg.append("g")
-                .attr("class", "y axis")
-                .attr("transform", "translate(" + padding + ",0)")
-                .call(yAxis)
-            .append("text")
-                .attr("text-anchor", "end")
-                .attr("y", 6)
-                .attr("dy", ".75em")
-                .attr("transform", d3.transform('translate(-60,200) rotate(-90)').toString())
-                .text("High-income citizens");
-        svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + (h - padding) + ")")
-                    .call(xAxis)
-            .append("text")
-                    .attr("class", "x-label")
-                    .attr("text-anchor", "end")
-                    .attr("x", w)
-                    .attr("y", h - 6)
-                    .attr("transform", d3.transform('translate(-425, -500)').toString())
-                    .text("Low-income citizens");
-    
-        function UpdateDraw(data) {
-            //Changing scales
-            xScale.domain([0, d3.max(data, function (d) { return d.LOW; })])
-            yScale.domain([0, d3.max(data, function (d) { return d.HIGH; })])
-            rScale.domain([0, d3.max(data, function (d) { return d.TOTAL; })])
-            //Define X axis
-            var xAxis = d3.svg.axis()
-                .scale(xScale)
-                .orient("bottom")
-                .tickFormat(d3.format(".2s"));
-            //Define Y Axis
-            var yAxis = d3.svg.axis()
-                .scale(yScale)
-                .orient("left")
-                .tickFormat(d3.format(".2s"));
-            //Update X axis
-            svg.selectAll(".x.axis")
-                .transition()
-                .duration(1000)
-                .call(xAxis);
-            //Update Y axis
-            svg.selectAll(".y.axis")
-                .transition()
-                .duration(1000)
-                .call(yAxis);
-            svg.selectAll("circle")
-               .data(data)
-               .transition()
-               .delay(250)
-               .duration(1500)
-               .attr({
-                   cx: function (d) { return xScale(d.LOW); },                  //x position based on prostitution crime number
-                   cy: function (d) { return yScale(d.HIGH); },                 //y position based on vehicle theft crime number
-                   r: function (d) { return rScale(d.TOTAL); },                 //radius based on total crime number 
-                   "fill": "rgb(52, 152, 219)",                               //Color
-                   class: "circle-" + data.category
-               });
-            text = svg.selectAll("text")                                    //Setting up labels
-           .attr("class", "labels")
-           .data(data)
-           .transition()
-           .delay(250)
-           .duration(1500)
-           .text(function (d) { return d.BYDEL; })
-           .attr("x", function (d) { return xScale(d.LOW); })
-           .attr("y", function (d) { return yScale(d.HIGH); })
-           .attr("font-family", "helvetica")
-           .attr("font-size", "15px")
-           .attr("fill", "rgb(44, 62, 80)");
-        }
-        });
-    </script>
 
 
 
