@@ -108,18 +108,18 @@ There is however another parameter which could confound this statement, namely t
             .tickFormat(d3.format(".0%"));
         var data1;
         var data2;
-     
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        d3.csv("data/dataSæt5AAR1997.csv", function (csv1) {
-            data1 = csv1;
-            d3.csv("data/dataSæt5AAR2013.csv", function (csv2) {
-                data2 = csv2;
-        var svg = d3.select("#entirenew").append("svg")
+        
+        var svg = d3.selectAll("#entirenew").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        d3.csv("data/dataSæt5AAR1997.csv", function (csv1) {
+            data1 = csv1;
+            d3.csv("data/dataSæt5AAR2013.csv", function (csv2) {
+                data2 = csv2;
                 color.domain(d3.keys(data1[0]).filter(function (key) { return key !== "BYDEL"; }));
                 data1.forEach(function (d) {
                     var y0 = 0;
