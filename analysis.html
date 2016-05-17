@@ -38,16 +38,9 @@
                 border-radius: 2px;
             }
     </style>
-
-
-
-
-
-
 </head>
 
 <body>
-
   <div id="main">
     <div id="header">
       <div id="logo">
@@ -76,14 +69,12 @@
     <div id="site_content">
       <div class="sidebar">
       </div>
-
-      <b>Analysis</b>
+      
+      <h1>Analysis</h1>
       <br></br>
         <!-- insert the page content here -->
         The first diagram displayed is simply to illustrate how the distribution of low and high employees has developed throughout the timeline of our dataset which is between 1997 and 2013. Try switching between years to see the change. 
       <br></br>
-
-
 
 <div id="canvas">
         <h2>Scatterplot displaying socioal economical status of citizens in CPH districts</h2>
@@ -222,7 +213,7 @@
                     .attr("class", "x-label")
                     .attr("text-anchor", "end")
                     .attr("x", w)
-                    .attr("y", h - 6)
+                    .attr("y", h + 90)
                     .attr("transform", d3.transform('translate(-425, -500)').toString())
                     .text("Low-income citizens");
     
