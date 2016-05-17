@@ -262,7 +262,7 @@ In the following donut charts we visualize the amount of immigrants in these two
     var width = 960 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
     var radius = Math.min(width, height) / 2;
-    var color = d3.scale.ordinal()
+    var color2 = d3.scale.ordinal()
                             .range(["#3498DB", "#2980B9", "#34495E"]);
     var pie = d3.layout.pie()
         .value(function (d) { return d.AAR1997; })
@@ -308,7 +308,7 @@ In the following donut charts we visualize the amount of immigrants in these two
             .data(pie)
           .enter()
             .append("path")
-            .style("fill", function (d) { return color(d.data.IETYPE); })
+            .style("fill", function (d) { return color2(d.data.IETYPE); })
             .attr("d", arc)
             .each(function (d) { this._current = d; }); // store the initial angles
         g.append("text")
@@ -344,7 +344,7 @@ In the following donut charts we visualize the amount of immigrants in these two
           //  .text("Vest Amager");
         //Legend
         var legend = svg.selectAll(".legend")
-                .data(color.domain())
+                .data(color2.domain())
                 .enter()
             .append("g")
                 .attr("class", "legend")
@@ -354,7 +354,7 @@ In the following donut charts we visualize the amount of immigrants in these two
             .attr("x", width-480)
             .attr("width", 18)
             .attr("height", 18)
-            .style("fill", color);
+            .style("fill", color2);
         //Legend text
         legend.append("text")
             .attr("x", width - 500)
