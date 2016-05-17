@@ -79,7 +79,7 @@
 
 
         <!-- insert the page content here -->
-        
+        The first diagram displayed is simply to illustrate how the distribution of low and high employees has developed throughout the timeline of our dataset which is between 1997 and 2013. Try switching between years to see the change. 
 
 
 
@@ -279,7 +279,9 @@
     </script>
 
 
-    
+    The first observation we can make is that all districts has had an overall increase in population - this is visualized by the radius of each circle. This is of course to be expected. The second and properly more interesting observation is almost every district has increased in number of high-income citizens. This is clearly visible because the y-axis effectively doubles its max value. 
+
+Let us investigate this further. In the following bar diagram the development of high-, medium-, and low-income citizens is displayed throughout our data timeframe. Try changing the district to see its particular development and mouse over bars to get precise data information. 
 
 
 
@@ -604,6 +606,394 @@
 
 
 
+While the previous scatterplot gave us an understanding of an overarching trend this grouped bar chart delivers a much deeper understanding. Look at the development of Vest Amager it is quite apparent that this district has had a drastic increase in high-income citizens. This corresponds well with how this district has undergone major improvements over the last decade. Furthermore we see a that the rise in high-income citizens spikes at 2010 while the amount of medium-income citizens lowers. This could indicate a trend towards Copenhagen becoming more attractive for wealthier citizens and averagely paid citizens moving to the suburbs. As a final remark to this chart it is notable that each district follows a similar development pattern in high-, medium- and low-income citizens. This indicates of course that even though these are different districts they all share the development of the entire Copenhagen. 
+
+
+There is however another parameter which could confound this statement, namely the age of citizens living in specific areas. Young people tend to earn less money, so if a particular district has been increasingly popular amongst the youth of Copenhagen this could explain its socio economic development. Let us have a look at the distribution of age groups in each district in 1997 and 2013. Should the visualization malfunction simply refresh the page. 
+
+
+
+
+
+
+<style>
+    body {
+        font: 12px sans-serif;
+    }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke-width: 2px;
+        stroke: rgb(52, 152, 219);
+        shape-rendering: crispEdges;
+    }
+    .bar {
+        fill: steelblue;
+    }
+    .x.axis path {
+        display: none;
+    }
+    .legend line {
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+    .button {
+                display: inline-block;
+                padding: 12px 16px;
+                font-size: 15px;
+                cursor: pointer;
+                text-align: center; 
+                text-decoration: none;
+                outline: none;
+                box-shadow: 0 1px #999;
+                background-color: white; 
+                color: black; 
+                border: 2px solid #555555;
+            }
+            .button:active {
+                transform: translateY(2px);
+            }
+</style>
+<body>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <div id="canvas">
+        <h2>Stacked bar chart displaying age developement</h2>
+        <p> </p>
+        <p>
+            Select crime:
+            <select class="selectcrime" id="crimes">
+                <option value="data1">1997</option>
+                <option value="data2">2013</option>
+            </select>
+        </p>
+    </div>
+    <script>
+        var margin = { top: 20, right: 100, bottom: 30, left: 40 },
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+        var y = d3.scale.linear()
+            .rangeRound([height, 0]);
+        var color = d3.scale.ordinal()
+            .range(["#98abc5", "#3498DB", "#2980B9", "#34495E", "#8a89a6", "#7b6888", "#6b486b"]);
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(d3.format(".0%"));
+        var data1;
+        var data2;
+     
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        d3.csv("data/dataSæt5AAR1997.csv", function (csv1) {
+            data1 = csv1;
+            d3.csv("data/dataSæt5AAR2013.csv", function (csv2) {
+                data2 = csv2;
+                color.domain(d3.keys(data1[0]).filter(function (key) { return key !== "BYDEL"; }));
+                data1.forEach(function (d) {
+                    var y0 = 0;
+                    d.ages = color.domain().map(function (name) { return { name: name, y0: y0, y1: y0 += +d[name] }; });
+                    d.ages.forEach(function (d) { d.y0 /= y0; d.y1 /= y0; });
+                });
+                data1.sort(function (a, b) { return b.ages[0].y1 - a.ages[0].y1; });
+                x.domain(data1.map(function (d) { return d.BYDEL; }));
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis);
+                var BYDEL = svg.selectAll(".BYDEL")
+                    .data(data1)
+                  .enter().append("g")
+                    .attr("class", "BYDEL")
+                    .attr("transform", function (d) { return "translate(" + x(d.BYDEL) + ",0)"; });
+                BYDEL.selectAll("rect")
+                    .data(function (d) { return d.ages; })
+                  .enter().append("rect")
+                    .attr("width", x.rangeBand())
+                    .attr("y", function (d) { return y(d.y1); })
+                    .attr("height", function (d) { return y(d.y0) - y(d.y1); })
+                    .style("fill", function (d) { return color(d.name); });
+                var legend = svg.select(".BYDEL:last-child").selectAll(".legend")
+                    .data(function (d) { return d.ages; })
+                  .enter().append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function (d) { return "translate(" + x.rangeBand() / 2 + "," + y((d.y0 + d.y1) / 2) + ")"; });
+                legend.append("line")
+                    .attr("x2", 10);
+                legend.append("text")
+                    .attr("x", 13)
+                    .attr("dy", ".35em")
+                    .text(function (d) { return d.name; });
+                //On click, update with new data            
+                d3.selectAll("#button1997, #button2013")
+                    .on("click", function () {
+                        //See which button was clicked
+                        var ID = d3.select(this).attr("id")
+                        //Decide which dataset to load
+                        if (ID == "button1997") {
+                            x = document.getElementById("button1997");
+                            x.style.backgroundColor = "white";
+                            x.style.color = "black";
+                            this.style.backgroundColor = "#008CBA";
+                            UpdateDraw(data1);
+                        }
+                        else if (ID == "button2013") {
+                            x = document.getElementById("button2013");
+                            x.style.backgroundColor = "white";
+                            x.style.color = "black";
+                            this.style.backgroundColor = "#008CBA";
+                            UpdateDraw(data2);
+                        }
+                    });
+                d3.select(".selectcrime")
+                      .on("change", function (d, i)
+                      {
+                          var sel = "";
+                          sel = String(d3.select("#crimes")
+                              .node()
+                              .value);
+                          if (sel == "data1")
+                          {
+                              UpdateDraw(data1);
+                          }
+                          else if (sel == "data2")
+                          {
+                              UpdateDraw(data2);
+                          }
+                          
+                      });
+                function UpdateDraw(data)
+                {
+                    console.log(data1, data2)
+                    var color = d3.scale.ordinal()
+                            .range(["#98abc5", "#3498DB", "#2980B9", "#34495E", "#8a89a6", "#7b6888", "#6b486b"]);
+                    color.domain(d3.keys(data[0]).filter(function (key) { return key !== "BYDEL"; }));
+                    data.forEach(function (d) {
+                        var y0 = 0;
+                        d.ages = color.domain().map(function (name) { return { name: name, y0: y0, y1: y0 += +d[name] }; });
+                        d.ages.forEach(function (d) { d.y0 /= y0; d.y1 /= y0; });
+                    });
+                    var x = d3.scale.ordinal().domain(data.map(function (d) { return d.BYDEL; }))
+                        .rangeRoundBands([0, width], .1);
+                    var y = d3.scale.linear()
+                        .rangeRound([height, 0]);
+                    //Define the Y axis
+                    var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .orient("left")
+                        .tickFormat(d3.format(".0%"));
+                    //Update Y axis
+                    svg.selectAll(".y.axis")
+                        .transition()
+                        .duration(1000)
+                        .call(y);
+                    var BYDEL = svg.selectAll(".BYDEL")
+                          .data(data)
+                          .attr("class", "BYDEL")
+                          .attr("transform", function (d) { return "translate(" + x(d.BYDEL) + ",0)"; });
+                    BYDEL.selectAll("rect")
+                        .data(function (d) { return d.ages; })
+                        .transition()
+                        .duration(1000)
+                        .attr("width", x.rangeBand())
+                        .attr("y", function (d) { return y(d.y1); })
+                        .attr("height", function (d) { return y(d.y0) - y(d.y1); })
+                        .style("fill", function (d) { return color(d.name); });
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+The trend we notice is an overall slight decrease in young people, which is also something to be expected since we in our current society live longer. The largest change happens in the district of Valby where we see a larger increase in the young population. Going back to our bar chart we notice that Valby actually is one of the districts with the lowest increase in high-income citizens which could indicate a correlation. 
+
+In order for us to evaluate whether the ancestry of citizens has had any influence on this trend let's zoom in on two interesting districts: Vest Amager due to it being the one with the greatest increase in high-income citizens and Bispebjerg due to it being the one with the greatest increase in low-income citizens.
+
+In the following donut charts we visualize the amount of immigrants in these two districts. Try changing the year too see this development. 
+
+
+
+
+
+
+<style>
+    .arc text {
+        font: 12px sans-serif;
+        text-anchor: middle;
+    }
+    body {
+        font-family: helvetica;
+    }
+    form {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+</style>
+
+    <body>
+    <div id="canvas">
+        <h2>Vest Amager</h2>
+        <p>
+                <label><input type="radio" name="dataset" value="AAR1997" onclick="checkAddress1(this)" checked> AAR1997</label>
+                <label><input type="radio" name="dataset" value="AAR2012" onclick="checkAddress2(this)"> AAR2012</label>
+        </p>
+    </div>
+ 
+
+    <script type="text/javascript" src="d3/d3.js"></script>
+<script>
+    var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+    var width = 960 - margin.left - margin.right;
+    var height = 500 - margin.top - margin.bottom;
+    var radius = Math.min(width, height) / 2;
+    var color = d3.scale.ordinal()
+                            .range(["#3498DB", "#2980B9", "#34495E"]);
+    var pie = d3.layout.pie()
+        .value(function (d) { return d.AAR1997; })
+        .sort(null);
+    var arc = d3.svg.arc()
+        .innerRadius(radius - 100)
+        .outerRadius(radius - 20);
+    var imigrants1997 = 798 + 121
+    var imigrants2013 = 3199 + 651
+ 
+    var danish1997 = 13516
+    var danish2013 = 20937
+    var percentimi1997 = Math.floor((imigrants1997/danish1997)*100)
+    var percentimi2013 = Math.floor((imigrants2013 / danish2013) * 100)
+    var percentincrease = Math.floor(((imigrants1997 + imigrants2013) / (danish1997 + danish2013)) * 100)
+    
+    var centerText;
+    
+    function checkAddress1(radio) {
+        if (radio.checked) {
+            centerText = percentimi1997;
+        }
+    }
+    function checkAddress2(radio) {
+        if (radio.checked) {
+            centerText = percentimi2013;
+        }
+    }
+    console.log(percentincrease, percentimi1997, percentimi2013)
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+      .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    d3.tsv("data/dataSæt6AmagerVest.tsv", type, function (error, data) {
+        if (error) throw error;
+        console.log(Object.keys(data))
+        var g = svg.selectAll(".arc")
+            .data(pie(data))
+          .enter().append("g")
+            .attr("class", "arc");
+        var path = svg.datum(data).selectAll("path")
+            .data(pie)
+          .enter()
+            .append("path")
+            .style("fill", function (d) { return color(d.data.IETYPE); })
+            .attr("d", arc)
+            .each(function (d) { this._current = d; }); // store the initial angles
+        g.append("text")
+          .attr("transform", function (d) { return "translate(" + arc.centroid(d) + ")"; })
+          .attr("dy", ".35em")
+          .text(function (d) { return d.data.IETYPE; });
+        d3.selectAll("input")
+            .on("change", change);
+        var timeout = setTimeout(function () {
+            d3.select("input[value=\"AAR2012\"]").property("checked", true).each(change);
+        }, 10000000000000);
+        //Center text
+        svg.append("text")
+            .attr("class", "centertext")
+            .attr("y", 20)
+            .style('fill', "rgb(41, 128, 185)")
+            .style("font-size", "70px")
+            .attr("text-anchor", "middle")
+            .text(percentimi1997 + "%");
+        svg.append("text")
+            .attr("class", "text")
+            .attr("y", 50)
+            .style('fill', "rgb(41, 128, 185)")
+            .style("font-size", "30px")
+            .attr("text-anchor", "middle")
+            .text("Imigrants");
+        //svg.append("text")
+          //  .attr("class", "text")
+          //  .attr("y", -50)
+          //  .style('fill', 'darkBlue')
+          //  .style("font-size", "30px")
+          //  .attr("text-anchor", "middle")
+          //  .text("Vest Amager");
+        //Legend
+        var legend = svg.selectAll(".legend")
+                .data(color.domain())
+                .enter()
+            .append("g")
+                .attr("class", "legend")
+                .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+        //Legend rectangles
+        legend.append("rect")
+            .attr("x", width-480)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color);
+        //Legend text
+        legend.append("text")
+            .attr("x", width - 500)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; });
+        console.log(d3.selectAll("input"))
+        console.log(centerText)
+        function change() {
+            
+            var value = this.value;
+            clearTimeout(timeout);
+            pie.value(function (d) { return d[value]; }); // change the value function
+            path = path.data(pie); // compute the new angles
+            path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+            svg.selectAll(".centertext")
+             .attr("y", 20)
+            .style('fill', 'rgb(41, 128, 185)')
+            .style("font-size", "70px")
+            .attr("text-anchor", "middle")
+            .text(centerText + "%");
+            console.log(d3.select("input[value=\"AAR1997\"]").property())
+        }
+    });
+    function type(d) {
+        d.AAR1997 = +d.AAR1997;
+        d.AAR2012 = +d.AAR2012;
+        return d;
+    }
+    // Store the displayed angles in _current.
+    // Then, interpolate from _current to the new angles.
+    // During the transition, _current is updated in-place by d3.interpolate.
+    function arcTween(a) {
+        var i = d3.interpolate(this._current, a);
+        this._current = i(0);
+        return function (t) {
+            return arc(i(t));
+        };
+    }
+</script>
 
 
 
@@ -615,10 +1005,174 @@
 
 
 
+<style>
+    .arc text {
+        font: 12px sans-serif;
+        text-anchor: middle;
+    }
+    body {
+        font-family: helvetica;
+    }
+    form {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+</style>
+
+<body>
+    <div id="canvas">
+        <h2>Bispebjerg</h2>
+        <p>
+            <label><input type="radio" name="dataset" value="AAR1997" onclick="checkAddress1(this)" checked> AAR1997</label>
+            <label><input type="radio" name="dataset" value="AAR2012" onclick="checkAddress2(this)"> AAR2012</label>
+        </p>
+    </div>
+
+
+    <script type="text/javascript" src="d3/d3.js"></script>
+    <script>
+        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        var width = 960 - margin.left - margin.right;
+        var height = 500 - margin.top - margin.bottom;
+        var radius = Math.min(width, height) / 2;
+        var color = d3.scale.ordinal()
+                                .range(["#3498DB", "#2980B9", "#34495E"]);
+        var pie = d3.layout.pie()
+            .value(function (d) { return d.AAR1997; })
+            .sort(null);
+        var arc = d3.svg.arc()
+            .innerRadius(radius - 100)
+            .outerRadius(radius - 20);
+        var imigrants1997 = 921 + 130
+        var imigrants2013 = 2812 + 736
+        var danish1997 = 11567
+        var danish2013 = 15548
+        var percentimi1997 = Math.floor((imigrants1997 / danish1997) * 100)
+        var percentimi2013 = Math.floor((imigrants2013 / danish2013) * 100)
+        var percentincrease = Math.floor(((imigrants1997 + imigrants2013) / (danish1997 + danish2013)) * 100)
+        var centerText;
+        function checkAddress1(radio) {
+            if (radio.checked) {
+                centerText = percentimi1997;
+            }
+        }
+        function checkAddress2(radio) {
+            if (radio.checked) {
+                centerText = percentimi2013;
+            }
+        }
+        console.log(percentincrease, percentimi1997, percentimi2013)
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+        d3.tsv("data/dataSæt6Bispebjerg.tsv", type, function (error, data) {
+            if (error) throw error;
+            console.log(Object.keys(data))
+            var g = svg.selectAll(".arc")
+                .data(pie(data))
+              .enter().append("g")
+                .attr("class", "arc");
+            var path = svg.datum(data).selectAll("path")
+                .data(pie)
+              .enter()
+                .append("path")
+                .style("fill", function (d) { return color(d.data.IETYPE); })
+                .attr("d", arc)
+                .each(function (d) { this._current = d; }); // store the initial angles
+            g.append("text")
+              .attr("transform", function (d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .text(function (d) { return d.data.IETYPE; });
+            d3.selectAll("input")
+                .on("change", change);
+            var timeout = setTimeout(function () {
+                d3.select("input[value=\"AAR2012\"]").property("checked", true).each(change);
+            }, 10000000000000);
+            //Center text
+            svg.append("text")
+                .attr("class", "centertext")
+                .attr("y", 20)
+                .style('fill', "rgb(41, 128, 185)")
+                .style("font-size", "70px")
+                .attr("text-anchor", "middle")
+                .text(percentimi1997 + "%");
+            svg.append("text")
+                .attr("class", "text")
+                .attr("y", 50)
+                .style('fill', "rgb(41, 128, 185)")
+                .style("font-size", "30px")
+                .attr("text-anchor", "middle")
+                .text("Imigrants");
+            //svg.append("text")
+            //  .attr("class", "text")
+            //  .attr("y", -50)
+            //  .style('fill', 'darkBlue')
+            //  .style("font-size", "30px")
+            //  .attr("text-anchor", "middle")
+            //  .text("Vest Amager");
+            //Legend
+            var legend = svg.selectAll(".legend")
+                    .data(color.domain())
+                    .enter()
+                .append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+            //Legend rectangles
+            legend.append("rect")
+                .attr("x", width - 480)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", color);
+            //Legend text
+            legend.append("text")
+                .attr("x", width - 500)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function (d) { return d; });
+            console.log(d3.selectAll("input"))
+            console.log(centerText)
+            function change() {
+                var value = this.value;
+                clearTimeout(timeout);
+                pie.value(function (d) { return d[value]; }); // change the value function
+                path = path.data(pie); // compute the new angles
+                path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+                svg.selectAll(".centertext")
+                 .attr("y", 20)
+                .style('fill', 'rgb(41, 128, 185)')
+                .style("font-size", "70px")
+                .attr("text-anchor", "middle")
+                .text(centerText + "%");
+                console.log(d3.select("input[value=\"AAR1997\"]").property())
+            }
+        });
+        function type(d) {
+            d.AAR1997 = +d.AAR1997;
+            d.AAR2012 = +d.AAR2012;
+            return d;
+        }
+        // Store the displayed angles in _current.
+        // Then, interpolate from _current to the new angles.
+        // During the transition, _current is updated in-place by d3.interpolate.
+        function arcTween(a) {
+            var i = d3.interpolate(this._current, a);
+            this._current = i(0);
+            return function (t) {
+                return arc(i(t));
+            };
+        }
+    </script>
 
 
 
 
+
+
+Looking at these two figures we see a slightly higher percentage of immigrants in the Bispebjerg district in 2013 compared to Vest Amager. This by itself does not support a trend. However, considering that the increase in danish citizens in Vest Amager has increased dramatically from 1997 to 2013 compared to Bispebjerg it is possible to conclude that immigrants in general have a lower salary compared to danes. 
 
 
 
