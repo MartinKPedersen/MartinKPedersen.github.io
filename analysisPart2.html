@@ -109,7 +109,7 @@ There is however another parameter which could confound this statement, namely t
         var data1;
         var data2;
         
-        var svg = d3.selectAll("#entirenew").append("svg")
+        var svgc = d3.select("#entirenew").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
@@ -128,14 +128,14 @@ There is however another parameter which could confound this statement, namely t
                 });
                 data1.sort(function (a, b) { return b.ages[0].y1 - a.ages[0].y1; });
                 x.domain(data1.map(function (d) { return d.BYDEL; }));
-                svg.append("g")
+                svgc.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + height + ")")
                     .call(xAxis);
-                svg.append("g")
+                svgc.append("g")
                     .attr("class", "y axis")
                     .call(yAxis);
-                var BYDEL = svg.selectAll(".BYDEL")
+                var BYDEL = svgc.selectAll(".BYDEL")
                     .data(data1)
                   .enter().append("g")
                     .attr("class", "BYDEL")
@@ -147,7 +147,7 @@ There is however another parameter which could confound this statement, namely t
                     .attr("y", function (d) { return y(d.y1); })
                     .attr("height", function (d) { return y(d.y0) - y(d.y1); })
                     .style("fill", function (d) { return color(d.name); });
-                var legend = svg.select(".BYDEL:last-child").selectAll(".legend")
+                var legend = svgc.select(".BYDEL:last-child").selectAll(".legend")
                     .data(function (d) { return d.ages; })
                   .enter().append("g")
                     .attr("class", "legend")
@@ -197,11 +197,11 @@ There is however another parameter which could confound this statement, namely t
                         .orient("left")
                         .tickFormat(d3.format(".0%"));
                     //Update Y axis
-                    svg.selectAll(".y.axis")
+                    svgc.selectAll(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(y);
-                    var BYDEL = svg.selectAll(".BYDEL")
+                    var BYDEL = svgc.selectAll(".BYDEL")
                           .data(data)
                           .attr("class", "BYDEL")
                           .attr("transform", function (d) { return "translate(" + x(d.BYDEL) + ",0)"; });
