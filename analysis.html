@@ -661,8 +661,8 @@ In the following donut charts we visualize the amount of immigrants in these two
     <div id="canvas">
         <h2>Vest Amager</h2>
         <p>
-                <label><input type="radio" name="dataset" value="AAR1997" onclick="checkAddress1(this)" checked> AAR1997</label>
-                <label><input type="radio" name="dataset" value="AAR2012" onclick="checkAddress2(this)"> AAR2012</label>
+                <label><input type="radio" name="dataset1" value="AAR1997" onclick="checkAddress1(this)" checked> AAR1997</label>
+                <label><input type="radio" name="dataset2" value="AAR2012" onclick="checkAddress2(this)"> AAR2012</label>
         </p>
     </div>
  
@@ -809,15 +809,6 @@ In the following donut charts we visualize the amount of immigrants in these two
 </script>
 
 
-
-
-
-
-
-
-
-
-
 <style>
     .arc text {
         font: 12px sans-serif;
@@ -833,12 +824,11 @@ In the following donut charts we visualize the amount of immigrants in these two
     }
 </style>
 
-
     <div id="canvas">
         <h2>Bispebjerg</h2>
         <p>
-            <label><input type="radio" name="dataset" value="AAR1997" onclick="checkAddress1(this)" checked> AAR1997</label>
-            <label><input type="radio" name="dataset" value="AAR2012" onclick="checkAddress2(this)"> AAR2012</label>
+            <label><input type="radio" name="dataset3" value="AAR1997" onclick="checkAddress3(this)" checked> AAR1997</label>
+            <label><input type="radio" name="dataset4" value="AAR2012" onclick="checkAddress4(this)"> AAR2012</label>
         </p>
     </div>
     <div id="area6"></div>
@@ -864,12 +854,12 @@ In the following donut charts we visualize the amount of immigrants in these two
         var percentimi2013 = Math.floor((imigrants2013 / danish2013) * 100)
         var percentincrease = Math.floor(((imigrants1997 + imigrants2013) / (danish1997 + danish2013)) * 100)
         var centerText;
-        function checkAddress1(radio) {
+        function checkAddress3(radio) {
             if (radio.checked) {
                 centerText = percentimi1997;
             }
         }
-        function checkAddress2(radio) {
+        function checkAddress4(radio) {
             if (radio.checked) {
                 centerText = percentimi2013;
             }
@@ -979,16 +969,13 @@ In the following donut charts we visualize the amount of immigrants in these two
         }
     </script>
 
-
-
-
-
 <br></br>
 Looking at these two figures we see a slightly higher percentage of immigrants in the Bispebjerg district in 2013 compared to Vest Amager. This by itself does not support a trend. However, considering that the increase in danish citizens in Vest Amager has increased dramatically from 1997 to 2013 compared to Bispebjerg it is possible to conclude that immigrants in general have a lower salary compared to danes. 
 <br></br>
 <br></br>
 <br></br>
-<br></br><br></br>
+<br></br>
+<br></br>
  </div>
     <div id="footer">
       Copyright &copy; simplestyle_2 | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">design from HTML5webtemplates.co.uk</a>
