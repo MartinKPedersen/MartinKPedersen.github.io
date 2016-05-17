@@ -44,21 +44,22 @@
       <div id="content">
         <!-- insert the page content here -->
 
-
+    <b>Machine Learning</b>
+    <br></br>
       Machine learning has a predictive nature. It is with the use of machine learning methods possible to instead of just analysing data, predict what might happen with future data observations or predict how they may be categorized. Like explained in the data section, the data we are dealing with is already highly categorized.
       Where other data often has one row for each instance of an observation, ours is grouped so that all of the same instances are in the same row. Because this row is already categorized we found it difficult to choose which methods to use, that would make sense for our focus. 
-      
+      <br></br>
       This first method is called a Decision tree. It is a way of investigating and visualizing what parameters has what kind of influence when determining a data points' categorization based on set parameters.
       A very important parameter in this case is the minimum samples split value which decides when to stop splitting. It is in our case set to 5000, which means that another split will happen if the sample is still > 5000.
-      
+      <br></br>
       The figure below shows the resulting figure. We are looking at a target being 6 different age groups based on 3 feature parameters being IETYPE (1 = Danish, 2 = Imigrant, 3 = Imigrant descendants), SOC_GRUPPE (1 = People in the workforce, 2 = People without work, 3 = People outside the work force), SOCSTIL (is peoples' social status which can be found on Continue the analysis on <a href="http://www.dst.dk/da/Statistik/dokumentation/Times/moduldata-for-arbejdsmarked/socstil-kode.aspx" target="_blank">this page</a>.)
-      <br><br><br>
+      <br></br>
       <img src="MartinKPedersen.github.io/dt.png" alt="hi" height="480" width="940"> <br><br>
       Due to the size of the picture, it can be hard to see what it says. It can be found <a href="http://postimg.org/image/ub6pm6w5t/full/" target="_blank">Here</a> in a more forgiving format.
-      <br><br>
+      <br></br>
       Each split in the tree poses a question, which is the more informative to ask for making that split. Samples that can say yes to that question goes to the left and other go to the right. It ultimately gives an indication of what is the most descriptive indicators for which age group people are in when in the category at a specific place in the tree. We can use this when we have a new observation in the same category to see what the likelyhood is that it will fall into either side category below.
-      
-      
+      <br></br>
+      <br></br>
       
 
 
