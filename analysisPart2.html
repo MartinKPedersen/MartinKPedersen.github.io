@@ -241,7 +241,7 @@ There is however another parameter which could confound this statement, namely t
                           .data(data)
                           .attr("class", "BYDEL")
                           .attr("transform", function (d) { return "translate(" + x(d.BYDEL) + ",0)"; });
-                    BYDEL.selectAll("rect")
+                    BYDEL.selectAll(".rect")
                         .data(function (d) { return d.ages; })
                         .transition()
                         .duration(1000)
