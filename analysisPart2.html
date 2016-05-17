@@ -101,15 +101,15 @@ There is however another parameter which could confound this statement, namely t
         <h2>Stacked bar chart displaying age developement</h2>
         <p> </p>
         <p>
-            Select crime:
-            <select class="selectcrime" id="crimes">
+            Select year:
+            <select class="selectyear" id="years">
                 <option value="data1">1997</option>
                 <option value="data2">2013</option>
             </select>
         </p>
     </div>
 
-            <div id="area3"></div>
+    <div id="area3"></div>
     <script>
         var margin = { top: 20, right: 100, bottom: 30, left: 40 },
             width = 960 - margin.left - margin.right,
@@ -198,11 +198,11 @@ There is however another parameter which could confound this statement, namely t
                             UpdateDraw(data2);
                         }
                     });
-                d3.select(".selectcrime")
+                d3.select(".selectyear")
                       .on("change", function (d, i)
                       {
                           var sel = "";
-                          sel = String(d3.select("#crimes")
+                          sel = String(d3.select("#years")
                               .node()
                               .value);
                           if (sel == "data1")
@@ -437,7 +437,12 @@ In the following donut charts we visualize the amount of immigrants in these two
         };
     }
 </script>
-
+<br></br>
+<br></br>
+Continue on Analysis part 3.
+<br></br>
+<br></br>
+<br></br>
 
 
 
