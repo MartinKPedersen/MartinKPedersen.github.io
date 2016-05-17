@@ -77,10 +77,11 @@
       <div class="sidebar">
       </div>
 
-
+      <b>Analysis</b>
+      <br></br>
         <!-- insert the page content here -->
         The first diagram displayed is simply to illustrate how the distribution of low and high employees has developed throughout the timeline of our dataset which is between 1997 and 2013. Try switching between years to see the change. 
-
+      <br></br>
 
 
 
@@ -280,9 +281,9 @@
 
 
     The first observation we can make is that all districts has had an overall increase in population - this is visualized by the radius of each circle. This is of course to be expected. The second and properly more interesting observation is almost every district has increased in number of high-income citizens. This is clearly visible because the y-axis effectively doubles its max value. 
-
-Let us investigate this further. In the following bar diagram the development of high-, medium-, and low-income citizens is displayed throughout our data timeframe. Try changing the district to see its particular development and mouse over bars to get precise data information. 
-
+  <br></br>
+  Let us investigate this further. In the following bar diagram the development of high-, medium-, and low-income citizens is displayed throughout our data timeframe. Try changing the district to see its particular development and mouse over bars to get precise data information. 
+  <br></br>
 
 
 
@@ -605,12 +606,11 @@ Let us investigate this further. In the following bar diagram the development of
     </script>
 
 
-
+<br></br>
 While the previous scatterplot gave us an understanding of an overarching trend this grouped bar chart delivers a much deeper understanding. Look at the development of Vest Amager it is quite apparent that this district has had a drastic increase in high-income citizens. This corresponds well with how this district has undergone major improvements over the last decade. Furthermore we see a that the rise in high-income citizens spikes at 2010 while the amount of medium-income citizens lowers. This could indicate a trend towards Copenhagen becoming more attractive for wealthier citizens and averagely paid citizens moving to the suburbs. As a final remark to this chart it is notable that each district follows a similar development pattern in high-, medium- and low-income citizens. This indicates of course that even though these are different districts they all share the development of the entire Copenhagen. 
-
-
+<br></br>
 There is however another parameter which could confound this statement, namely the age of citizens living in specific areas. Young people tend to earn less money, so if a particular district has been increasingly popular amongst the youth of Copenhagen this could explain its socio economic development. Let us have a look at the distribution of age groups in each district in 1997 and 2013. Should the visualization malfunction simply refresh the page. 
-
+<br></br>
 
 
 
@@ -671,8 +671,8 @@ There is however another parameter which could confound this statement, namely t
             </select>
         </p>
     </div>
-
-            <div id="area3"></div>
+    
+    <div id="area3"></div>
     <script>
         var margin = { top: 20, right: 100, bottom: 30, left: 40 },
             width = 960 - margin.left - margin.right,
@@ -823,13 +823,13 @@ There is however another parameter which could confound this statement, namely t
 
 
 
-
+<br></br>
 The trend we notice is an overall slight decrease in young people, which is also something to be expected since we in our current society live longer. The largest change happens in the district of Valby where we see a larger increase in the young population. Going back to our bar chart we notice that Valby actually is one of the districts with the lowest increase in high-income citizens which could indicate a correlation. 
-
+<br></br>
 In order for us to evaluate whether the ancestry of citizens has had any influence on this trend let's zoom in on two interesting districts: Vest Amager due to it being the one with the greatest increase in high-income citizens and Bispebjerg due to it being the one with the greatest increase in low-income citizens.
-
+<br></br>
 In the following donut charts we visualize the amount of immigrants in these two districts. Try changing the year too see this development. 
-
+<br></br>
 
 
 
@@ -859,7 +859,7 @@ In the following donut charts we visualize the amount of immigrants in these two
         </p>
     </div>
  
-
+  <div id="area5"></div>
     <script type="text/javascript" src="d3/d3.js"></script>
 <script>
     var margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -896,7 +896,7 @@ In the following donut charts we visualize the amount of immigrants in these two
         }
     }
     console.log(percentincrease, percentimi1997, percentimi2013)
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#area5").append("svg")
         .attr("width", width)
         .attr("height", height)
       .append("g")
@@ -1034,8 +1034,7 @@ In the following donut charts we visualize the amount of immigrants in these two
             <label><input type="radio" name="dataset" value="AAR2012" onclick="checkAddress2(this)"> AAR2012</label>
         </p>
     </div>
-
-
+    <div id="area6"></div>
     <script type="text/javascript" src="d3/d3.js"></script>
     <script>
         var margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -1069,7 +1068,7 @@ In the following donut charts we visualize the amount of immigrants in these two
             }
         }
         console.log(percentincrease, percentimi1997, percentimi2013)
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("#area6").append("svg")
             .attr("width", width)
             .attr("height", height)
           .append("g")
@@ -1177,9 +1176,9 @@ In the following donut charts we visualize the amount of immigrants in these two
 
 
 
-
+<br></br>
 Looking at these two figures we see a slightly higher percentage of immigrants in the Bispebjerg district in 2013 compared to Vest Amager. This by itself does not support a trend. However, considering that the increase in danish citizens in Vest Amager has increased dramatically from 1997 to 2013 compared to Bispebjerg it is possible to conclude that immigrants in general have a lower salary compared to danes. 
-
+<br></br>
 
 
 
